@@ -2,14 +2,8 @@ import numpy as np
 import os
 import random
 
-from agent import Agent
+from agent import Agent, Proposal
 
-class Proposal:
-    def __init__(self, sender, receiver, use_rose):
-        self.sender = sender
-        self.receiver = receiver
-        self.has_rose = use_rose
-        self.accepted = False
 
 class Environment:
     def __init__(self, num_men, num_women, max_proposals):
@@ -69,15 +63,15 @@ class Environment:
         Proposal stage where agents send proposals.
         """
         for sender in self.men + self.women:
-            for _ in range(self.max_proposals): # currently all proposals are always used up
+            for _ in range(self.max_proposals): # currently all proposals are always used up. Could add a Q table for learning how many proposals to send?
                 action = sender.choose_send_action()
                 if action["receiver_id"]:
-                    sender.update_valid_receivers(action["receiver_id"])
                     receiver = self.all_agents[action["receiver_id"]]
-                    proposal = Proposal(sender, receiver, action["action"] == 1)
+                    proposal = Proposal(sender, receiver, use_rose=action["action"] == 1)
                     self.proposals.append(proposal)
-                    sender.update_proposals_sent(proposal)
-                    receiver.update_proposals_received(proposal)
+
+                    sender.send_proposal(proposal)
+                    receiver.receive(proposal)
 
                 else:
                     print("----WARNING: No valid receiver found*************************************")
