@@ -68,9 +68,9 @@ class Environment:
                 if action["receiver_id"]:
                     receiver = self.all_agents[action["receiver_id"]]
                     proposal = Proposal(sender, receiver, use_rose=action["action"] == 1)
+                    
                     self.proposals.append(proposal)
-
-                    sender.send_proposal(proposal)
+                    sender.send(proposal)
                     receiver.receive(proposal)
 
                 else:
