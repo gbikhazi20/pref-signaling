@@ -4,6 +4,13 @@ import random
 from stats import Stats
 
 
+class Proposal:
+    def __init__(self, sender, receiver, use_rose):
+        self.sender = sender
+        self.receiver = receiver
+        self.has_rose = use_rose
+        self.accepted = False
+
 class Agent:
     def __init__(self, id, gender, num_roses, num_proposals, desirability_score, num_participants=10, learning_rate=0.1, discount_factor=0.95):
         """
@@ -26,8 +33,8 @@ class Agent:
         self.proposals_sent = list()
         self.proposals_received = list()
         self.stats = Stats()
-        self.send_q_table = np.zeros((num_participants, 2)) # row for each agent in opposite sex, col for each action (proposal, proposal w/ rose)
-        self.receive_q_table = np.zeros((num_participants, 2)) # row for each agent in opposite sex, col for each action (accept, reject)
+        self.send_q_table = np.zeros((num_participants, 2)) # row for each agent in opposite sex, col for each action in {proposal, proposal w/ rose}
+        self.receive_q_table = np.zeros((num_participants, 2)) # row for each agent in opposite sex, col for each action in {accept, reject}
         self.exploration_rate = 1.0
         self.learning_rate = learning_rate
         self.discount_factor = discount_factor
@@ -66,20 +73,28 @@ class Agent:
         max_idx = Agent.q_table_max_idx(np.array(valid_choices_q_table))
         return (valid_idx[max_idx[0]], int(max_idx[1]))
     
-    def update_proposals_sent(self, proposal):
+    def __update_proposals_sent(self, proposal):
         self.proposals_sent.append(proposal)
-    
-    def update_proposals_received(self, proposal):
+        
+    def __update_proposals_received(self, proposal):
         self.proposals_received.append(proposal)
 
-    def update_valid_receivers(self, receiver_id):
+    def __update_valid_receivers(self, receiver_id):
         self.valid_receivers.remove(receiver_id)
+
+    def send(self, proposal):
+        self.__update_valid_receivers(proposal.receiver.id)
+        self.__update_proposals_sent(proposal)
+    
+    def receive(self, proposal):
+        self.__update_proposals_received(proposal)
+
 
     def choose_send_action(self):
         """
         Choose an action using epsilon-greedy strategy (with exploration and exploitation).
         
-        :return: Action (0: proposal, 1: proposal with rose)
+        :return: dict of format {receiver_id: str, "action": int}
         """
         if len(self.proposals_sent) >= self.num_proposals:
             # this shouldn't happen
