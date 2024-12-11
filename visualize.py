@@ -63,7 +63,9 @@ def visualize_rose_effect(proposals_with_rose, proposals_without_rose, save_to="
         np.mean(proposals_without_rose) if proposals_without_rose else 0
     ]
     
-    plt.bar(labels, means, color=['red', 'blue'])
+    rose_color = "#d10026"
+    green_color = "#00752d"
+    plt.bar(labels, means, color=[rose_color, green_color])
     plt.ylabel('Acceptance Rate')
     plt.title('Effect of Sending Roses on Acceptance Rates')
     
