@@ -1,0 +1,20 @@
+{
+    "proposals_sent": 6000,
+    "roses_sent": 4022,
+    "proposals_sent_accepted": 4045,
+    "roses_sent_accepted": 4000,
+    "adsnr_sent": 76.78087894961973,
+    "adsnr_sent_accepted": 41.28857551036732,
+    "adsr_sent": 54.27106701285291,
+    "adsr_sent_accepted": 54.27106701285291,
+    "proposals_received": 8001,
+    "roses_received": 3998,
+    "proposals_received_accepted": 4017,
+    "roses_received_accepted": 2008,
+    "adsnr_received": 37.07616480106289,
+    "adsnr_received_accepted": 52.538515560406154,
+    "adsr_received": 44.86461290441078,
+    "adsr_received_accepted": 52.84261328519412,
+    "agent_id": "man_19",
+    "desirability_score": 55.301522864916755
+}
