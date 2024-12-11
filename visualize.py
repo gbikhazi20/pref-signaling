@@ -67,6 +67,7 @@ def visualize_rose_effect(proposals_with_rose, proposals_without_rose, save_to="
     plt.ylabel('Acceptance Rate')
     plt.title('Effect of Sending Roses on Acceptance Rates')
     plt.savefig(f"{save_to}/rose_effect.png")
+    plt.close()
 
 def visualize_desirability_effect(desirability, acceptance_rate_sent, acceptance_rate_received, save_to="visualizations"):
     plt.scatter(desirability, acceptance_rate_sent, alpha=0.5, label="Sent")
@@ -76,6 +77,7 @@ def visualize_desirability_effect(desirability, acceptance_rate_sent, acceptance
     plt.title('Effect of Desirability on Proposal Outcomes')
     plt.legend()
     plt.savefig(f"{save_to}/desirability_effect.png")
+    plt.close()
 
 
 def go(results_dir="results", save_to="visualizations"):
