@@ -62,17 +62,23 @@ def visualize_rose_effect(proposals_with_rose, proposals_without_rose, save_to="
         np.mean(proposals_with_rose) if proposals_with_rose else 0,
         np.mean(proposals_without_rose) if proposals_without_rose else 0
     ]
-
+    
     plt.bar(labels, means, color=['red', 'blue'])
     plt.ylabel('Acceptance Rate')
     plt.title('Effect of Sending Roses on Acceptance Rates')
+    
+    for i, mean in enumerate(means):
+        plt.text(i, mean + 0.01, f"{mean:.2f}", ha='center', va='bottom')
+
+    max_mean = max(means)
+    plt.ylim(0, max_mean + 0.1 * max_mean)
     plt.savefig(f"{save_to}/rose_effect.png")
     plt.close()
 
 def visualize_desirability_effect(desirability, acceptance_rate_sent, acceptance_rate_received, save_to="visualizations"):
     plt.scatter(desirability, acceptance_rate_sent, alpha=0.5, label="Sent")
     plt.scatter(desirability, acceptance_rate_received, alpha=0.5, label="Received")
-    plt.xlabel('Average Desirability Score')
+    plt.xlabel('Agent Desirability Score')
     plt.ylabel('Acceptance Rate')
     plt.title('Effect of Desirability on Proposal Outcomes')
     plt.legend()
