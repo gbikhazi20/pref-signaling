@@ -3,7 +3,7 @@ import os
 import random
 from tqdm import tqdm
 
-from agent import Man, Woman, Proposal
+from environment.agent import Man, Woman, Proposal
 
 
 class Environment:

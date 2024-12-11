@@ -1,7 +1,7 @@
 import argparse
 import ast
 
-from env import Environment
+from environment.env import Environment
 
 
 def parse_dict(arg):
