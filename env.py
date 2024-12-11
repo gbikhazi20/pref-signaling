@@ -1,12 +1,13 @@
 import numpy as np
 import os
 import random
+from tqdm import tqdm
 
-from agent import Agent, Proposal
+from agent import Man, Woman, Proposal
 
 
 class Environment:
-    def __init__(self, num_men, num_women, max_proposals):
+    def __init__(self, num_men, num_women, max_proposals, rose_distribution={0.8: 2, 0.2: 6}):
         """
         Initialize the environment.
         
@@ -15,26 +16,31 @@ class Environment:
         """
         self.num_men = num_men
         self.men = [
-            Agent(id=f"man_{i}", gender="man", num_roses=self.assign_roses(), num_proposals=max_proposals, desirability_score=np.random.normal(50, 15))
+            Man(id=i, num_roses=self.assign_roses(d=rose_distribution), num_proposals=max_proposals, desirability_score=np.random.normal(50, 15),
+                num_participants=num_women)
             for i in range(num_men)
         ]
         self.num_women = num_women
         self.women = [
-            Agent(id=f"woman_{i}", gender="woman", num_roses=self.assign_roses(), num_proposals=max_proposals, desirability_score=np.random.normal(50, 15))
+            Woman(id=i, num_roses=self.assign_roses(d=rose_distribution), num_proposals=max_proposals, desirability_score=np.random.normal(50, 15),
+                  num_participants=num_men)
             for i in range(num_women)
         ]
         self.all_agents = {agent.id: agent for agent in self.men + self.women}
         self.max_proposals = max_proposals  # Maximum proposals that can be sent
         self.proposals = list()  # Proposals sent during the proposal stage
+        self.rose_distribution = rose_distribution
+        self.tracking = False # whether or not to track stats
 
     def reset(self):
         """
         Reset proposals and agents for the next episode.
-        Agents' Q-tables and stats are not reset, obviously!
+        Agents' Q-tables and stats are not reset, obviously
         """
         self.proposals = list()
         for agent in self.men + self.women:
             agent.reset()
+            agent.num_roses = self.assign_roses(self.rose_distribution)
         
 
     @staticmethod
@@ -60,7 +66,7 @@ class Environment:
 
     def proposal_stage(self):
         """
-        Proposal stage where agents send proposals.
+        Agents send proposals.
         """
         for sender in self.men + self.women:
             for _ in range(self.max_proposals): # currently all proposals are always used up. Could add a Q table for learning how many proposals to send?
@@ -68,7 +74,7 @@ class Environment:
                 if action["receiver_id"]:
                     receiver = self.all_agents[action["receiver_id"]]
                     proposal = Proposal(sender, receiver, use_rose=action["action"] == 1)
-                    
+
                     self.proposals.append(proposal)
                     sender.send(proposal)
                     receiver.receive(proposal)
@@ -80,21 +86,29 @@ class Environment:
             
     def response_stage(self):
         """
-        Response stage where agents receive and evaluate proposals.
+        Agents receive and evaluate proposals.
         """
         for agent in self.men + self.women:
-            agent.process_proposals_received()
+            agent.screen_proposals_received()
         
         for agent in self.men + self.women:
-            agent.process_proposals_sent()
+            agent.process_matches(track_stats=self.tracking)
     
 
-    def simulate(self, n=3, save_results=False, results_dir="results"):
+    def simulate(self, n=10, save_results=False, save_ep=8, results_dir="results"):
         """
         Run the full simulation.
+        :param n: Number of episodes to run
+        :param save_results: Whether to save results to a file
+        :param save_ep: Save results after this episode if saving results
+        :param results_dir: Directory to save results
         """
-        for episode in range(n):  # Simulate for 1000 episodes
-            print(f"Episode {episode+1}")
+
+        for episode in tqdm(range(n)):  # Simulate for n episodes
+            # print(f"Episode {episode+1}")
+            if episode >= save_ep and save_results:
+                self.tracking = True
+
             self.proposal_stage()
             self.response_stage()
             # Decay exploration rate
