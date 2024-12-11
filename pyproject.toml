@@ -5,9 +5,9 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
-    "gym>=0.26.2",
-    "gymnasium>=1.0.0",
-    "ipykernel>=6.29.5",
-    "pettingzoo>=1.24.3",
-    "ray>=2.39.0",
+    "matplotlib>=3.9.3",
+    "numpy>=2.0.2",
+    "pandas>=2.2.3",
+    "seaborn>=0.13.2",
+    "tqdm>=4.67.1",
 ]
