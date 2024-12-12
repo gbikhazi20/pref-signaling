@@ -80,7 +80,7 @@ $ pip install -r requirements.txt
 
 I've tried to make this library simple and intuitive to run experiments in.
 
-The `sim.py` file is the main entry point for running simulations. I've created a command line interface for it so that experiments can easily be run with different settings. Running `python sim.py --help` shows us all the settings we can change when running an experiment:
+The `sim.py` file is the main entry point for running simulations. I've created a command line interface for it so that experiments can easily be run with different settings. Running `python sim.py --help` shows us all the settings you can change when running an experiment:
 
 ```
 $ python sim.py -h
@@ -120,7 +120,7 @@ $ python run sim.py
 Or as fine-grained as:
 
 ```
-$ uv run sim.py --num_episodes 12000 --num_men 20 --num_women 20 --max_proposals 2 --rose_distribution {.60: 1, .30: 2, .10: 7} --save_results --save_ep 10000 --results_dir sim_results
+$ python sim.py --num_episodes 12000 --num_men 20 --num_women 20 --max_proposals 2 --rose_distribution {.60: 1, .30: 2, .10: 7} --save_results --save_ep 10000 --results_dir sim_results
 
 ```
 
