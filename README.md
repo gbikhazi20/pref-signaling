@@ -63,7 +63,7 @@ While I can't quite say I've perfectly modeled how people date just yet, this is
 
 The code in this repo attempts to simulate this experiment using Q-learning agents in Python.
 
-To get started, you'll need to clone and install all the dependencies. If you use the [uv package manager](https://docs.astral.sh/uv/) (which I would recommend), you can simply clone this repo and `uv run sim.py`:
+To get started, you'll need to clone and install all the dependencies. If you use the [uv package manager](https://docs.astral.sh/uv/) (which I recommend), you can simply clone this repo and `uv run sim.py`:
 
 ```
 $ git clone git@github.com:gbikhazi20/propose-with-a-rose.git
