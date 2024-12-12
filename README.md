@@ -6,7 +6,7 @@ If you have ever applied for a job, ordered an Uber, or asked someone out, you h
 
 As a young, single person, who has already gotten into college and is not pre-med, the matching market of relationships is of most interest to me. In an age where more and more relationships are formed online [6], the matching markets of dating apps are particulary interesting. In their 2014 paper, "Propose with a Rose? Signaling in Internet Dating Markets," Stanford economists Muriel Niederle and Soohyung Lee detail the results of an online dating experiment they conducted in South Korea. Participants were given a limited number of "virtual roses" to express heightened interest when requesting a date. The study revealed several intriguing findings, including a significant increase in matching success rates when roses were used. Many dating apps now incorporate a similar preference signaling mechanism — Tinder has Super Likes, Bumble has SuperSwipes, Hinge has Roses...
 
-### `propose-with-a-rose` Under the Hood
+### `propose-with-a-rose` under the hood
 
 1. For now, `propose-with-a-rose` assumes only two types of agents: `Man` and `Woman` types, which are both subclasses of the `Agent` class. The distinction between men and women here is, for now, arbitrary, since both types of agents' behavior is identical. However, the code is designed in such a way that altering one class of agent's behavior, or adding a third or fourth type of agent, is very easy.
 2. Each agent is assigned a `desirability` score following a normal distribution. This directly models the field experiment: The company which organized the online dating platform calculated desirability scores for each user, but did not reveal them to anyone.
@@ -20,7 +20,7 @@ As a young, single person, who has already gotten into college and is not pre-me
 10. Agents **implicitly** learn to associate higher rewards with agents of higher desirability scores. This means that agents **do not** have access to the desirability scores of other agents during the proposal phase. The desirability of other agents is inferred through rewards learned over time. This closely models the field experiment since users were not revealed the desirability scores of others (nor their own, for that matter).
 11. Roses matter less to more desirable agents. As in, the more desirable an agent is, the of a positive impact the rose has on their decision to accept a proposal.
 
-### Preliminary results
+### Preliminary Results
 
 Results so far seem to track with Neiderle and Lee's findings. In a simulation run with 20 men, 20 women, and a rose distribution of {0.8: 2, 0.2:6}, roses increase the likelihood that a proposal is accepted, and agents seem to send and accept proposals in accordance with their desirability scores.
 
@@ -76,7 +76,7 @@ Otherwise, if you use `pip`, you can just `pip install` after cloning:
 $ pip install -r requirements.txt
 ```
 
-## Using `propose-with-a-rose` to Run Experiments
+## Using `propose-with-a-rose` to run experiments
 
 I've tried to make this library simple and intuitive to run experiments in.
 
